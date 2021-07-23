@@ -20,7 +20,7 @@
 #endif
 
 #include "include/filemachine.hpp"
-#include "include/ezcrypto.h"
+//#include "include/ezcrypto.h"
 #include "include/util.h"
 
 namespace WebUI {
@@ -121,6 +121,8 @@ namespace WebUI {
 			void InitView (std::string init_page) {
 				view.set_title("Web App");
 				view.set_size(800, 450, WEBVIEW_HINT_NONE);
+
+				std::cout << "Navigating to : " << init_page;
 				view.navigate(init_page);
 			}
 

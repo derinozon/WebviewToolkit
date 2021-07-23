@@ -7,7 +7,8 @@
 using namespace WebUI;
 
 std::string pat = ConnectPath(CurrentPath(), "/www");
-WWTK ui = WWTK(6868, pat);
+//WWTK ui = WWTK(6868, pat);
+WWTK ui = WWTK("http://127.0.0.1:5500/examples/Radio/www/index.html");
 
 
 MAIN {

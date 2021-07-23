@@ -6,7 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
-#include <dirent.h>
+#include "dirent.h"
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -107,13 +107,14 @@ void MoveFile (string path,string to) {
 
 string GetFileName (string path) {
 	auto p = fs::path(path);
-	return p.filename();
+	return p.filename().string();
 }
 
 inline bool IsDir (std::string dirPath) {
 	fs::path path(dirPath);
 	return fs::is_directory(path);
 }
+
 
 inline std::vector<std::string> ListDirectory (const char* path, bool showHidden) {
 	DIR *d = opendir(path);
