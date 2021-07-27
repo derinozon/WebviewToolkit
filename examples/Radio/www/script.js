@@ -88,4 +88,4 @@ playBtn.addEventListener('click', () => {
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
 
-alert("asdfasdf");
+document.getElementsByTagName("h1")[0].style.color = "red";

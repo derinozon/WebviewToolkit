@@ -45,6 +45,7 @@ namespace WebUI {
 
 			void Run () {
 				view.run();
+				server_thread.join();
 			}
 			
 			#ifdef USESERVER
