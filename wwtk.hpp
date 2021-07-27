@@ -53,6 +53,7 @@ namespace WebUI {
 			WWTK (int port, std::string mount_directory) : server_thread(&WWTK::StartServer, this) {
 				PORT = port;
 				mountDir = mount_directory;
+				std::cout << "Initialising server..." << std::endl;
 
 				InitView("http://localhost:" + std::to_string(PORT));
 			}

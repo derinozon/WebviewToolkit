@@ -34,7 +34,7 @@ echo Building webview.exe (x64)
 cl /I "%src_dir%\script\microsoft.web.webview2.1.0.664.37\build\native\include" ^
 	"%src_dir%\script\microsoft.web.webview2.1.0.664.37\build\native\x64\WebView2Loader.dll.lib" ^
 	/std:c++17 /EHsc "/Fo%build_dir%"\ ^
-	"%src_dir%\examples\Radio\radio.cpp" /link "/OUT:%build_dir%\webapp.exe" || exit \b
+	"%src_dir%\examples\Radio\radio.cpp" /link "/OUT:%src_dir%\examples\Radio\radio.exe" || exit \b
 
 copy "%src_dir%\script\microsoft.web.webview2.1.0.664.37\build\native\x64\WebView2Loader.dll" "%build_dir%"
 del "%build_dir%\radio.obj"
