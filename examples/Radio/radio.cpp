@@ -1,14 +1,15 @@
 #include <sstream>
 #include <algorithm>
 
-#define USESERVER
 #include "../../wwtk.hpp"
 
 using namespace WebUI;
 
 std::string pat = ConnectPath(CurrentPath(), "/www");
 //WWTK ui = WWTK(6868, pat);
-WWTK ui = WWTK("http://127.0.0.1:5500/examples/Radio/www/index.html");
+std::string filepath = "file:///Users/machina/Desktop/WebviewToolkit/examples/Radio/www/index.html";
+std::string hostpath = "http://127.0.0.1:5500/examples/Radio/www/index.html";
+WWTK ui = WWTK(filepath);
 
 
 MAIN {

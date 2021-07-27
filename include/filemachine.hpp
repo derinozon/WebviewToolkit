@@ -6,7 +6,12 @@
 #include <sstream>
 #include <vector>
 #include <string>
+
+#ifdef WIN32
 #include "dirent.h"
+#else
+#include <dirent.h>
+#endif
 
 using namespace std;
 namespace fs = std::filesystem;
