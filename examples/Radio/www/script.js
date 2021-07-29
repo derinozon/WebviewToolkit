@@ -88,4 +88,5 @@ playBtn.addEventListener('click', () => {
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
 
-document.getElementsByTagName("h1")[0].style.color = "red";
+
+

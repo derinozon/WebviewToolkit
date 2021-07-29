@@ -7,45 +7,68 @@
 
 #pragma once
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
+#define ISWIN
+#endif
+
+#ifdef ISWIN
 #define MAIN int WINAPI WinMain(HINSTANCE hInt, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 #else
 #define MAIN int main (int argc, char** argv)
 #endif
 
-#include "include/webview.h"
+#if !defined(USESERVER) && defined(ISWIN)
+#define USESERVER 1
+#endif
 
-#ifdef USESERVER
+#if !defined(USESERVER) && !defined(ISWIN)
+#define USESERVER 0
+#endif
+
+#if USESERVER == 1
 #include "include/httplib.h"
 #endif
+
+#include "include/webview.h"
+
 
 #include "include/filemachine.hpp"
 #include "include/util.h"
 
-namespace WebUI {
-	class WWTK {
+namespace WVTK {
+	class WebviewTK {
 		public:
-			webview::webview view;
-
-			
-			
-			
+			webview::webview view = webview::webview(true, nullptr);
 
 			std::string mountDir;
 			int PORT = 0;
 
-			WWTK () {
+			WebviewTK () {
 			
 			}
 			// Won't initialize the server //
-			WWTK (std::string url) {
+			WebviewTK (std::string url) {
 				InitView(url);
 			}
-			WWTK (std::string url, int width=640, int height=480) {
-				InitView(url, width, height);
+			WebviewTK (std::string url, std::string title = "Web App", int width=640, int height=480) {
+				InitView(url, title, width, height);
 			}
+			#if USESERVER == 1
+			WebviewTK (std::string mount_directory, int port = 6868) : server_thread(&WebviewTK::StartServer, this) {
+				PORT = port;
+				mountDir = mount_directory;
+				std::cout << "Initialising server..." << std::endl;
+
+				InitView("http://localhost:" + std::to_string(PORT));
+			}
+			#else
+			WebviewTK (std::string mount_directory, int port) {
+				InitView("file://" + mount_directory);
+			}
+			#endif
 
 			int Run () {
+				view.navigate(initial_page);
 				view.run();
 				if (server_thread.joinable()) {
 					std::cout << "Joined Thread" << std::endl;
@@ -55,37 +78,30 @@ namespace WebUI {
 				return 0;
 			}
 			
-			#ifdef USESERVER
+			#if USESERVER == 1
 			httplib::Server server;
 
-			WWTK (int port, std::string mount_directory) : server_thread(&WWTK::StartServer, this) {
-				PORT = port;
-				mountDir = mount_directory;
-				std::cout << "Initialising server..." << std::endl;
-
-				InitView("http://localhost:" + std::to_string(PORT));
-			}
+			
 
 			void StartServer () {
+				//server.set_file_extension_and_mimetype_mapping("js", "application/javascript");
 				TryMount("/", mountDir);
 				ProcessDir(mountDir);
-				std::cout << "listening on port " << PORT << std::endl;
+				
 				server.listen("localhost", PORT);
+				std::cout << "listening on port " << PORT << std::endl;
 			}
 
-			std::string TryMount (std::string mount_point, std::string dir) {
-				std::string err = "";
+			void TryMount (std::string mount_point, std::string dir) {
 				
 				if (!server.set_mount_point(mount_point.c_str(), dir.c_str())) {
-					std::cout << MOUNT_ERR << std::endl;
-					err = "/MOUNT_ERR";
-					server.Get(err.c_str(), [err](const httplib::Request &req, httplib::Response &res) {
+					Log("MOUNT_ERR");
+
+					server.Get("/MOUNT_ERR", [](const httplib::Request &req, httplib::Response &res) {
 						res.set_header("Access-Control-Allow-Origin", "*");
-						res.set_content(err, "text/plain");
+						res.set_content("MOUNT_ERR", "text/plain");
 					});
 				}
-				std::cout << "Mounted : " << mount_point << ' ' << dir << std::endl;
-				return err;
 			}
 
 			void ProcessDir (std::string dir) {
@@ -114,7 +130,7 @@ namespace WebUI {
 			}
 			#else
 
-			WWTK (int port, std::string mount_directory) {
+			WebviewTK (int port, std::string mount_directory) {
 				PORT = port;
 				mountDir = mount_directory;
 
@@ -125,14 +141,14 @@ namespace WebUI {
 	
 		private:
 			std::thread server_thread;
-			const char* MOUNT_ERR = "\033[31m Error: Mounting directory not found!\033[0m";
+			std::string initial_page = "https://www.google.com";
 
-			void InitView (std::string init_page, int width=640, int height=480) {
-				view.set_title("Web App");
+			void InitView (std::string init_page, std::string title = "Web App", int width=640, int height=480) {
+				view.set_title(title);
 				view.set_size(width, height, WEBVIEW_HINT_NONE);
 
 				std::cout << "Navigating to : " << init_page;
-				view.navigate(init_page);
+				initial_page = init_page;
 			}
 
 			std::string SubStr (std::string text, std::string erase) {
@@ -141,6 +157,10 @@ namespace WebUI {
 				if (i != std::string::npos)
 				text.erase(i, erase.length());
 				return text;
+			}
+
+			void Log (std::string message) {
+				std::cout << message << std::endl;
 			}
 	};
 }

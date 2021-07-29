@@ -181,7 +181,16 @@ body {
 	  </div>
     </div>
 
-    <script>const musicContainer = document.getElementById('music-container');
+    <script>
+	
+	
+	window.onload = function() {
+	document.getElementsByTagName("h1")[0].style.color = "red";
+  };
+  document.getElementsByTagName("h1")[0].style.color = "red";
+  
+ 
+  const musicContainer = document.getElementById('music-container');
 const playBtn = document.getElementById('play');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
@@ -269,6 +278,10 @@ playBtn.addEventListener('click', () => {
 });
 
 prevBtn.addEventListener('click', prevSong);
-nextBtn.addEventListener('click', nextSong);</script>
+nextBtn.addEventListener('click', nextSong);
+
+
+  
+  </script>
   </body>
 </html>
