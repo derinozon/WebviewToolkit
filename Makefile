@@ -1,3 +1,5 @@
+#For Ubuntu Users run "sudo apt install webkit2gtk-4.0"
+
 UNAME := $(shell uname)
 
 CC = g++
@@ -15,6 +17,7 @@ endif
 
 webui: examples/Radio/radio.cpp wwtk.hpp
 	$(CC) $(CCV) examples/Radio/radio.cpp $(LIB) -o examples/Radio/radio.out
+	$(CC) $(CCV) examples/Browser/browser.cpp $(LIB) -o examples/Browser/browser.out
 
 run:
 	cd ./examples/Radio/ && ./radio.out

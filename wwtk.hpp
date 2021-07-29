@@ -1,4 +1,4 @@
-// WebUI | Derin Özön 2021
+// Webview Toolkit | Derin Özön 2021
 
 // This Header consists of two libraries merged together with my bridge functions.
 // Both libraries are MIT licenced and can be found on links below
@@ -8,7 +8,7 @@
 #pragma once
 
 #ifdef WIN32
-#define MAIN int WINAPI WinMain(HINSTANCE hInt, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow) {
+#define MAIN int WINAPI WinMain(HINSTANCE hInt, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 #else
 #define MAIN int main (int argc, char** argv)
 #endif
@@ -20,7 +20,6 @@
 #endif
 
 #include "include/filemachine.hpp"
-//#include "include/ezcrypto.h"
 #include "include/util.h"
 
 namespace WebUI {
@@ -42,10 +41,18 @@ namespace WebUI {
 			WWTK (std::string url) {
 				InitView(url);
 			}
+			WWTK (std::string url, int width=640, int height=480) {
+				InitView(url, width, height);
+			}
 
-			void Run () {
+			int Run () {
 				view.run();
-				server_thread.join();
+				if (server_thread.joinable()) {
+					std::cout << "Joined Thread" << std::endl;
+					server_thread.join();
+				}
+					
+				return 0;
 			}
 			
 			#ifdef USESERVER
@@ -120,9 +127,9 @@ namespace WebUI {
 			std::thread server_thread;
 			const char* MOUNT_ERR = "\033[31m Error: Mounting directory not found!\033[0m";
 
-			void InitView (std::string init_page) {
+			void InitView (std::string init_page, int width=640, int height=480) {
 				view.set_title("Web App");
-				view.set_size(800, 450, WEBVIEW_HINT_NONE);
+				view.set_size(width, height, WEBVIEW_HINT_NONE);
 
 				std::cout << "Navigating to : " << init_page;
 				view.navigate(init_page);
@@ -136,25 +143,4 @@ namespace WebUI {
 				return text;
 			}
 	};
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-
-
-
-	
-
-	
-
-	
 }
