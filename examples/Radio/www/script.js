@@ -9,6 +9,8 @@ const progressContainer = document.getElementById('progress-container');
 const title = document.getElementById('title');
 const cover = document.getElementById('cover');
 
+const volumeSlider = document.getElementById('volume-slider');
+
 
 // Keep track of song
 let songIndex = 0;
@@ -88,5 +90,5 @@ playBtn.addEventListener('click', () => {
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
 
-
-
+volumeSlider.addEventListener('change', () => audio.volume = volumeSlider.value/100);
+volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value/100);

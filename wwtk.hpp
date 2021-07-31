@@ -32,10 +32,13 @@
 #include "include/webview.h"
 
 
+
 #include "include/filemachine.hpp"
 #include "include/util.h"
 
 namespace WVTK {
+	
+
 	class WebviewTK {
 		public:
 			webview::webview view = webview::webview(true, nullptr);
@@ -63,7 +66,7 @@ namespace WVTK {
 			}
 			#else
 			WebviewTK (std::string mount_directory, int port) {
-				InitView("file://" + mount_directory);
+				InitView("file://" + mount_directory + "/index.html");
 			}
 			#endif
 

@@ -6,7 +6,7 @@
 #include "../../wwtk.hpp"
 
 MAIN {
-	std::string url = "https://www.youtube.com";
+	std::string url = "https://www.google.com";
 	WVTK::WebviewTK ui = WVTK::WebviewTK(url, "Browser", 480, 640);
 	return ui.Run();
 }
