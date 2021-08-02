@@ -1,5 +1,4 @@
 #include <sstream>
-#include <algorithm>
 
 #include "../../webviewtk.hpp"
 

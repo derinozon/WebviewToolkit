@@ -5,6 +5,8 @@
 // webview by Serge Zaitsev (https://github.com/webview/webview)
 // cpp-httplib by Yuji Hirose (https://github.com/yhirose/cpp-httplib)
 
+#include <algorithm>
+
 #pragma once
 
 #if defined(WIN32) || defined(_WIN32)
@@ -12,7 +14,8 @@
 #endif
 
 #ifdef ISWIN
-#define MAIN int WINAPI WinMain(HINSTANCE hInt, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
+//#define MAIN int WINAPI WinMain(HINSTANCE hInt, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
+#define MAIN int main (int argc, char** argv)
 #else
 #define MAIN int main (int argc, char** argv)
 #endif
@@ -34,7 +37,7 @@
 #include "include/filemachine.hpp"
 #include "include/util.h"
 
-#if !ISWIN
+#if !defined(ISWIN)
 #include "include/macmenu.h"
 #endif
 
@@ -68,7 +71,9 @@ namespace WVTK {
 			}
 			#else
 			WebviewTK (std::string mount_directory, int port) {
-				InitView("file://" + mount_directory + "/index.html");
+				//char backslash = 92;
+				//std::replace( mount_directory.begin(), mount_directory.end(), backslash, '/');
+				InitView("file:///" + mount_directory + "/index.html");
 			}
 			#endif
 
@@ -112,9 +117,9 @@ namespace WVTK {
 			void ProcessDir (std::string dir) {
 				const char* base = dir.c_str();
 				
-				for (std::string dir : ListDirectory(base, false)) {
-					std::string dirPath = ConnectPath(base, dir);
-					if (IsDir(dirPath)) {
+				for (std::string dir : File::ListDirectory(base, false)) {
+					std::string dirPath = File::ConnectPath(base, dir);
+					if (File::IsDir(dirPath)) {
 						std::string mp = SubStr(dirPath, mountDir);
 						TryMount(mp, dirPath);
 						ProcessDir(dirPath.c_str());
@@ -155,7 +160,7 @@ namespace WVTK {
 				std::cout << "Navigating to : " << init_page;
 				initial_page = init_page;
 
-				#if !ISWIN
+				#ifdef __Apple__
 				create_mac_menu();
 				#endif
 			}

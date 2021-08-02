@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
 #include "dirent.h"
 #else
 #include <dirent.h>
