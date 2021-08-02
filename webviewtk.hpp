@@ -31,10 +31,12 @@
 
 #include "include/webview.h"
 
-
-
 #include "include/filemachine.hpp"
 #include "include/util.h"
+
+#if !ISWIN
+#include "include/macmenu.h"
+#endif
 
 namespace WVTK {
 	
@@ -152,6 +154,10 @@ namespace WVTK {
 
 				std::cout << "Navigating to : " << init_page;
 				initial_page = init_page;
+
+				#if !ISWIN
+				create_mac_menu();
+				#endif
 			}
 
 			std::string SubStr (std::string text, std::string erase) {

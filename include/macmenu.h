@@ -67,4 +67,3 @@ void create_mac_menu () {
 	objc_msgSend(mm3, "addItem:"_sel, copyMenuItem);
 	objc_msgSend(mm3, "addItem:"_sel, pasteMenuItem);
 }
-

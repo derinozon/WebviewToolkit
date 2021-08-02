@@ -3,7 +3,7 @@
 
 #define USESERVER 0
 
-#include "../../wwtk.hpp"
+#include "../../webviewtk.hpp"
 
 MAIN {
 	std::string url = "https://www.google.com";
