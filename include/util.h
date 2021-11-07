@@ -2,7 +2,26 @@
 
 #include <string>
 
+#if !defined(ISWIN)
+	#include <pwd.h>
+#else
+	#include <windows.h>
+	#include <Lmcons.h>
+#endif
+
+
 namespace WVTK::Util {
+
+	std::string os_username () {
+		#if !defined(ISWIN)
+			struct passwd *tmp = getpwuid (geteuid ());
+			return std::string(tmp->pw_name);
+		#else
+			char username[UNLEN+1];
+			DWORD username_len = UNLEN+1;
+			return std::string(GetUserName(username, &username_len));
+		#endif
+	}
 
 	std::string req2str (const char* req) {
 		int reqlen = strlen(req)-4;

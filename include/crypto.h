@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include "aes.h"
+
+namespace WVTK::Crypto {
 
 /*
  * This code comes from John the Ripper password cracker, with reentrant
@@ -796,4 +799,74 @@ int CompareBcrypt (const char* pwd) {
 
 	printf("%d\n", res);
 	return res;
+}
+
+std::string AES_String (std::string str) {
+	int rem = AES_BLOCKLEN - (str.length()%AES_BLOCKLEN);
+
+	for (size_t i = 0; i < rem; i++) {
+		str+=' ';
+	}
+	return str;
+}
+
+std::string AES_Encrypt (std::string str, const uint8_t* key) {
+	struct AES_ctx ctx;
+	uint8_t buffer[AES_BLOCKLEN];
+	
+	AES_init_ctx(&ctx, key);
+
+
+	//char end[str.size()];
+	std::string end = str;
+
+	int parts = AES_BLOCKLEN;
+	int start = 0;
+	
+	while (start < str.length()) {
+		std::string split = str.substr(start, parts);
+		for (int i = 0; i < AES_BLOCKLEN; i++) {
+			buffer[i] = split[i];
+		}
+		AES_ECB_encrypt(&ctx, buffer);
+
+		for (int i = start; i < start+AES_BLOCKLEN; i++) {
+			end[i] = buffer[i-start];
+		}
+		
+		start += parts;
+	}
+
+	return end;
+}
+std::string AES_Decrypt (std::string str, const uint8_t* key) {
+	struct AES_ctx ctx;
+	uint8_t buffer[AES_BLOCKLEN];
+	
+	AES_init_ctx(&ctx, key);
+
+
+	//char end[str.size()];
+	std::string end = std::string(str);
+
+	int parts = AES_BLOCKLEN;
+	int start = 0;
+	
+	while (start < str.length()) {
+		std::string split = str.substr(start, parts);
+		for (int i = 0; i < AES_BLOCKLEN; i++) {
+			buffer[i] = split[i];
+		}
+		AES_ECB_decrypt(&ctx, buffer);
+
+		for (int i = start; i < start+AES_BLOCKLEN; i++) {
+			end[i] = buffer[i-start];
+		}
+		
+		start += parts;
+	}
+
+	return end;
+}
+
 }

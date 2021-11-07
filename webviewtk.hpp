@@ -14,8 +14,7 @@
 #endif
 
 #ifdef ISWIN
-//#define MAIN int WINAPI WinMain(HINSTANCE hInt, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
-#define MAIN int main (int argc, char** argv)
+#define MAIN int WINAPI WinMain(HINSTANCE hInt, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 #else
 #define MAIN int main (int argc, char** argv)
 #endif
@@ -39,6 +38,7 @@
 
 #if !defined(ISWIN)
 #include "include/macmenu.h"
+#include "include/crypto.h"
 #endif
 
 namespace WVTK {
@@ -160,7 +160,7 @@ namespace WVTK {
 				std::cout << "Navigating to : " << init_page;
 				initial_page = init_page;
 
-				#ifdef __Apple__
+				#ifdef __APPLE__
 				create_mac_menu();
 				#endif
 			}

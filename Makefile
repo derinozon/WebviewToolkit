@@ -15,12 +15,14 @@ endif
 
 
 
-webui: examples/Radio/radio.cpp wwtk.hpp
-	$(CC) $(CCV) examples/Radio/radio.cpp $(LIB) -o examples/Radio/radio.out
-	$(CC) $(CCV) examples/Browser/browser.cpp $(LIB) -o examples/Browser/browser.out
+webui: examples/Radio/radio.cpp webviewtk.hpp
+	$(CC) $(CCV) examples/Notebook/notebook.cpp $(LIB) -o examples/Notebook/notebook.out
+#	$(CC) $(CCV) examples/Radio/radio.cpp $(LIB) -o examples/Radio/radio.out
+#	$(CC) $(CCV) examples/Browser/browser.cpp $(LIB) -o examples/Browser/browser.out
 
 run:
-	cd ./examples/Radio/ && ./radio.out
+	cd ./examples/Notebook/ && ./notebook.out
+#	cd ./examples/Radio/ && ./radio.out
 
 precompile: main.cpp wwtk.hpp
 	$(CC) $(CCV) wwtk.hpp

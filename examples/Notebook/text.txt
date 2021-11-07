@@ -1,0 +1,3 @@
+<h1>Passwords</h1>
+<p>jeffbezos@amazon.com</p>
+<button onclick=copy('pw')>copy password</button>

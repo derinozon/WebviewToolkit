@@ -33,4 +33,4 @@
 
 .DS_Store
 .vscode
-examples/PasswordManager
+examples/PasswordManagerLegacy

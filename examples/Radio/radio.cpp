@@ -11,6 +11,8 @@ MAIN {
 		
 	auto cinit = [] (std::string seq, std::string req, void* arg) {
 		std::string data = ReadFile("data.json");
+
+		// Erase the endline characters //
 		data.erase(std::remove(data.begin(), data.end(), '\n'), data.end());
 
 		std::stringstream ss;

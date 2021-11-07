@@ -26,14 +26,14 @@ namespace WVTK::File {
 		return pp.string();
 	}
 
-	std::string ReadFile (std::string path) {
+	std::string ReadFile (std::string path, bool raw = false) {
 		std::string content;
 		std::ifstream file;
 		file.open (path);
 		while (!file.eof()) {
 			std::string a;
 			getline(file,a);
-			content += a;
+			content += (raw ? a : a+"\\n");
 		}
 		
 		file.close();
