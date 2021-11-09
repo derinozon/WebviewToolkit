@@ -34,3 +34,5 @@
 .DS_Store
 .vscode
 examples/PasswordManagerLegacy
+examples/NotebookLegacy
+examples/Notebook
