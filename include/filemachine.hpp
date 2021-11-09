@@ -25,6 +25,29 @@ namespace WVTK::File {
 		pp += fs::path(b);
 		return pp.string();
 	}
+	/*
+	std::string ReadBinary (std::string path) {
+		std::ifstream file(path, std::ios::binary | std::ios::ate);
+		file.seekg(0, std::ios::end);
+		int fsize=file.tellg();
+		file.seekg(0, std::ios::beg);
+		file.close();
+		fsize = fs::file_size(path);
+		std::ifstream rf(path, std::ios::out | std::ios::binary);
+		char arr[fsize];
+		std::string out;
+		rf.read(arr, fsize);
+   		rf.close();
+		return std::string(arr);
+	}
+
+	void WriteBinary (std::string path, std::string content) {
+		// UPDATE //
+		std::ofstream file(path, std::ios::in | std::ios::binary);
+		file << content;
+		file.close();
+	}
+	*/
 
 	std::string ReadFile (std::string path, bool raw = false) {
 		std::string content;

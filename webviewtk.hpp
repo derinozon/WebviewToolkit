@@ -146,8 +146,11 @@ namespace WVTK {
 
 				InitView("http://localhost:" + std::to_string(PORT));
 			}
-
 			#endif
+
+			void EvalOnPageLoad (std::string js) {
+				view.eval("window.addEventListener('DOMContentLoaded', () => {"+js+"});");
+			}
 	
 		private:
 			std::thread server_thread;

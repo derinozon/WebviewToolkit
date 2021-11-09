@@ -785,6 +785,15 @@ void WriteBcrypt (char* pwd) {
 
 	printf("%s\n", hash);
 }
+auto WriteBcrypt (const char* pwd, int work = 4) {
+	char salt[BCRYPT_HASHSIZE];
+	char hash[BCRYPT_HASHSIZE];
+	
+	bcrypt_gensalt(work, salt);
+	bcrypt_hashpw(pwd, salt, hash);
+
+	return std::string(hash);
+}
 
 int CompareBcrypt (const char* pwd) {
 	char outhash[BCRYPT_HASHSIZE];
@@ -803,10 +812,13 @@ int CompareBcrypt (const char* pwd) {
 
 std::string AES_String (std::string str) {
 	int rem = AES_BLOCKLEN - (str.length()%AES_BLOCKLEN);
-
-	for (size_t i = 0; i < rem; i++) {
-		str+=' ';
+	if (rem != AES_BLOCKLEN) {
+		for (size_t i = 0; i < rem; i++) {
+			// str+=' ';
+			str+= (char)0;
+		}
 	}
+	
 	return str;
 }
 
