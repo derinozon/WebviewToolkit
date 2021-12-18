@@ -13,14 +13,35 @@
 #include <dirent.h>
 #endif
 
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+#include <limits.h>
+#endif
+
 namespace WVTK::File {
 	namespace fs = std::filesystem;
 
 	std::string CurrentPath () {
-		return fs::current_path().string();
+		#if defined(ISWIN)
+			return fs::current_path().string();
+		#elif defined(__APPLE__)
+			char buf [PATH_MAX];
+			uint32_t bufsize = PATH_MAX;
+			_NSGetExecutablePath(buf, &bufsize);
+			std::string str = buf;
+			std::size_t found = str.find_last_of("/\\");
+			str = str.substr(0,found);
+			return str;
+		#else
+			char path[FILENAME_MAX];
+			ssize_t count = readlink("/proc/self/exe", path, FILENAME_MAX);
+			return std::filesystem::path(std::string(path, (count > 0) ? count: 0)).parent_path().string();
+		#endif
+		
 	}
 
-	std::string ConnectPath (const std::string a, const std::string b) {
+	std::string ConnectPath (std::string a, std::string b) {
+		if (b[0] != '/') b = '/'+b;
 		auto pp = fs::path(a);
 		pp += fs::path(b);
 		return pp.string();

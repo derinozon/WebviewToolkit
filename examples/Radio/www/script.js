@@ -24,7 +24,6 @@ function InitData (str) {
 	datalen = data["data"].length;
 	loadSong(songIndex);
 }
-cinit();
 
 // Update song details
 function loadSong(i) {

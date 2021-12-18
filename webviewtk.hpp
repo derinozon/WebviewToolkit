@@ -38,7 +38,7 @@
 
 #if !defined(ISWIN)
 #include "include/macmenu.h"
-#include "include/crypto.h"
+#include "include/crypto/crypto.h"
 #endif
 
 namespace WVTK {
@@ -160,7 +160,6 @@ namespace WVTK {
 				view.set_title(title);
 				view.set_size(width, height, WEBVIEW_HINT_NONE);
 
-				std::cout << "Navigating to : " << init_page;
 				initial_page = init_page;
 
 				#ifdef __APPLE__

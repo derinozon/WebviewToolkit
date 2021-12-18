@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<link rel="stylesheet" href="darktheme.css">
+	<link rel="stylesheet" href="index.css">
+
+</head>
+<body>
+	
+
+	<div id="app">
+		
+		<div id="register-section" class="center-content">
+			<h1>Hello Derin</h1>
+			<p>Start using your digital notebook by creating a unique password below.</p>
+			<input spellcheck="false"> <br>
+			<button onclick='register()'>Register</button>
+		</div>
+
+		<div id="login-section" class="center-content">
+			<h1>Hello Derin</h1>
+			<input type="password" spellcheck="false"> <br>
+			<button onclick='login()'>Login</button>
+		</div>
+		
+		<div id="main-section">
+			<div id="toolbar" class="h-box">
+				<h1>Derin's Notebook</h1>
+				<div style="margin-left: auto;">
+					<label class="switch">
+						<input id="edit-toggle" type="checkbox">
+						<span class="slider round"></span>
+					</label>
+				</div>
+				
+			</div>
+			<div id=dump></div>
+			<textarea spellcheck="false"></textarea>
+		</div>
+		
+		
+	</div>
+
+	<script src="index.js"></script>
+	
+</body>
+</html>
