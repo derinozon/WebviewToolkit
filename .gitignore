@@ -35,3 +35,5 @@
 .vscode
 examples/PasswordManagerLegacy
 examples/NotebookLegacy
+hash.bin
+notes.bin
