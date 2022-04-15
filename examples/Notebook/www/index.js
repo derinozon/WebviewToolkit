@@ -14,7 +14,8 @@ edit_toggle.addEventListener("click", () => {
 		text_area.style.display = "none";
 		dump.style.display = "block";
 		txt = text_area.value;
-		dump.innerHTML = txt;
+		let replaced = txt.replace(/\n/g, "<br>");
+		dump.innerHTML = replaced;
 
 		c_encrypt(txt);
 	}
@@ -52,7 +53,8 @@ function login_success () {
 	register_section.remove();
 	login_section.remove();
 	main_section.style.display = "initial";
-	dump.innerHTML = txt;
+	let replaced = txt.replace(/\n/g, "<br>");
+	dump.innerHTML = replaced;
 }
 
 function login_fail () {
