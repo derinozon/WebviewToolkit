@@ -10043,14 +10043,35 @@ static void dirent_set_errno(int error)
 #include <dirent.h>
 #endif
 
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+#include <limits.h>
+#endif
+
 namespace WVTK::File {
 	namespace fs = std::filesystem;
 
 	std::string CurrentPath () {
-		return fs::current_path().string();
+		#if defined(ISWIN)
+			return fs::current_path().string();
+		#elif defined(__APPLE__)
+			char buf [PATH_MAX];
+			uint32_t bufsize = PATH_MAX;
+			_NSGetExecutablePath(buf, &bufsize);
+			std::string str = buf;
+			std::size_t found = str.find_last_of("/\\");
+			str = str.substr(0,found);
+			return str;
+		#else
+			char path[FILENAME_MAX];
+			ssize_t count = readlink("/proc/self/exe", path, FILENAME_MAX);
+			return std::filesystem::path(std::string(path, (count > 0) ? count: 0)).parent_path().string();
+		#endif
+		
 	}
 
-	std::string ConnectPath (const std::string a, const std::string b) {
+	std::string ConnectPath (std::string a, std::string b) {
+		if (b[0] != '/') b = '/'+b;
 		auto pp = fs::path(a);
 		pp += fs::path(b);
 		return pp.string();
@@ -11845,21 +11866,18 @@ int bcrypt_hashpw(const char *passwd, const char salt[BCRYPT_HASHSIZE], char has
 
 namespace WVTK::Crypto {
 
-	int workFactor = 5;
-	void WriteBcrypt (char* pwd) {
+	
+	void WriteBcrypt (const char* pwd, FILE* file, int work = 4) {
 		char salt[BCRYPT_HASHSIZE];
 		char hash[BCRYPT_HASHSIZE];
 		
-		bcrypt_gensalt(workFactor, salt);
+		bcrypt_gensalt(work, salt);
 		bcrypt_hashpw(pwd, salt, hash);
-		FILE* file = fopen("hash.bin", "w");
+		
 		
 		fwrite(hash, 1, BCRYPT_HASHSIZE, file);
-		fclose(file);
-
-		printf("%s\n", hash);
 	}
-	auto WriteBcrypt (const char* pwd, int work = 4) {
+	std::string Bcrypt_Encrypt (const char* pwd, int work = 4) {
 		char salt[BCRYPT_HASHSIZE];
 		char hash[BCRYPT_HASHSIZE];
 		
@@ -11869,11 +11887,11 @@ namespace WVTK::Crypto {
 		return std::string(hash);
 	}
 
-	int CompareBcrypt (const char* pwd) {
+	int CompareBcrypt (const char* pwd, FILE* file) {
 		char outhash[BCRYPT_HASHSIZE];
 		char inhash[BCRYPT_HASHSIZE];
 
-		FILE* file = fopen("hash.bin", "r");
+		
 
 		fread(inhash, BCRYPT_HASHSIZE, 1, file);
 

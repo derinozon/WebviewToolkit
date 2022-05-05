@@ -33,6 +33,7 @@
 
 .DS_Store
 .vscode
+build
 examples/PasswordManagerLegacy
 examples/NotebookLegacy
 hash.bin

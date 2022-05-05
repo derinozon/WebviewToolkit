@@ -1,6 +1,3 @@
-#include <sstream>
-#include <algorithm>
-
 #define USESERVER 0
 
 #include "../../webviewtk.hpp"
