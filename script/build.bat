@@ -32,16 +32,16 @@ call "%vc_dir%\Common7\Tools\vsdevcmd.bat" -arch=x64 -host_arch=x64
 
 echo Building examples (x64)
 
-echo Building Radio example
-cl /I "%src_dir%\script\microsoft.web.webview2.1.0.664.37\build\native\include" ^
-	"%src_dir%\script\microsoft.web.webview2.1.0.664.37\build\native\x64\WebView2Loader.dll.lib" ^
-	/std:c++17 /EHsc "/Fo%build_dir%"\ ^
-	"%src_dir%\examples\Radio\radio.cpp" /link "/OUT:%src_dir%\examples\Radio\radio.exe" || exit \b
+@REM echo Building Radio example
+@REM cl /I "%src_dir%\script\microsoft.web.webview2.1.0.664.37\build\native\include" ^
+@REM 	"%src_dir%\script\microsoft.web.webview2.1.0.664.37\build\native\x64\WebView2Loader.dll.lib" ^
+@REM 	/std:c++17 /EHsc "/Fo%build_dir%"\ ^
+@REM 	"%src_dir%\examples\Radio\radio.cpp" /link "/OUT:%src_dir%\examples\Radio\radio.exe" || exit \b
 
-copy "%src_dir%\script\microsoft.web.webview2.1.0.664.37\build\native\x64\WebView2Loader.dll" "%build_dir%"
-del "%build_dir%\radio.obj"
+@REM copy "%src_dir%\script\microsoft.web.webview2.1.0.664.37\build\native\x64\WebView2Loader.dll" "%build_dir%"
+@REM del "%build_dir%\radio.obj"
 
-
+echo %src_dir%
 echo Building Browser example
 cl /I "%src_dir%\script\microsoft.web.webview2.1.0.664.37\build\native\include" ^
 	"%src_dir%\script\microsoft.web.webview2.1.0.664.37\build\native\x64\WebView2Loader.dll.lib" ^

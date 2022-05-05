@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <string.h>
 
 #if !defined(ISWIN)
 	#include <pwd.h>
@@ -19,7 +19,8 @@ namespace WVTK::Util {
 		#else
 			char username[UNLEN+1];
 			DWORD username_len = UNLEN+1;
-			return std::string(GetUserName(username, &username_len));
+			auto uname = GetUserName(username, &username_len);
+			return std::string("uname");
 		#endif
 	}
 
